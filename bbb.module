@@ -963,13 +963,13 @@ function theme_bbb_block_meeting($meeting) {
  */
 function bbb_config_get($variable, $default) {
   $config = config('bbb.settings');
-  $variable = $config->get($variable);
-  if ($variable === NULL) {
+  $value = $config->get($variable);
+  if ($value === NULL) {
     $config->set($variable, $default);
     $config->save();
     return $default;
   }
-  return $variable;
+  return $value;
 }
 
 /**
