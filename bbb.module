@@ -316,7 +316,7 @@ function bbb_form_alter(&$form, &$form_state, $form_id) {
   }
 
   // Node edit form
-  if (array_key_exists('#node_edit_form', $form)) {
+  if (array_key_exists('base_form_id', $form_state['build_info']) && $form_state['build_info']['base_form_id'] == 'node_form') {
     $node_type = $form['type']['#value'];
     if (drupal_substr($form_id, (drupal_strlen($form_id) - 10), 10) == '_node_form' && bbb_is_meeting_type($node_type)) {
       if (is_numeric($form['nid']['#value'])) {
