@@ -14,7 +14,9 @@
  */
 function bbb_settings() {
 
+  $config = config('bbb.settings');
   $form = array();
+  $form['#config'] = 'bbb.settings';
   $form['bbb_server'] = array(
     '#title' => 'Server settings',
     '#type' => 'fieldset',
@@ -23,12 +25,12 @@ function bbb_settings() {
   $form['bbb_server']['bbb_base_url'] = array(
     '#title' => t('Base URL'),
     '#type' => 'textfield',
-    '#default_value' => variable_get('bbb_base_url', BIGBLUEBUTTON_BASE_URL),
+    '#default_value' => $config->get('bbb_base_url'),
   );
   $form['bbb_server']['bbb_security_salt'] = array(
     '#title' => t('Security Salt'),
     '#type' => 'textfield',
-    '#default_value' => variable_get('bbb_security_salt', BIGBLUEBUTTON_SECURITY_SALT),
+    '#default_value' => $config->get('bbb_security_salt'),
     '#description' => t('The predefined security salt. This is a server side configuration option. Please check the BigBlueButton !documentation.', array('!documentation' => l(t('documentation'), 'http://code.google.com/p/bigbluebutton/'))),
   );
   $form['bbb_client'] = array(
@@ -42,20 +44,20 @@ function bbb_settings() {
       'inline' => t('Display inline'),
       'blank' => t('Open in a new window'),
     ),
-    '#default_value' => variable_get('bbb_display_mode', BIGBLUEBUTTON_DISPLAY_MODE),
+    '#default_value' => $config->get('bbb_display_mode'),
     '#description' => t('How to open links to meetings from the block provided by the Big Blue Button module.'),
   );
   $form['bbb_client']['bbb_display_height'] = array(
     '#title' => t('Height x Width'),
     '#type' => 'textfield',
-    '#default_value' => variable_get('bbb_display_height', BIGBLUEBUTTON_DISPLAY_HEIGHT),
+    '#default_value' => $config->get('bbb_display_height'),
     '#prefix' => '<div class="container-inline">',
     '#suffix' => 'x',
     '#size' => 4,
   );
   $form['bbb_client']['bbb_display_width'] = array(
     '#type' => 'textfield',
-    '#default_value' => variable_get('bbb_display_width', BIGBLUEBUTTON_DISPLAY_WIDTH),
+    '#default_value' => $config->get('bbb_display_width'),
     '#suffix' => '</div>',
     '#size' => 4,
     '#description' => '<br />' . t('Give dimensions for inline display, e.g. <em>520px</em> x <em>100%</em>.'),

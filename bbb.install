@@ -111,6 +111,5 @@ function bbb_update_7100() {
  * Implement hook_uninstall().
  */
 function bbb_uninstall() {
-  // Remove variables
-  db_query("DELETE FROM {variable} WHERE name LIKE 'bbb_%'");
+
 }

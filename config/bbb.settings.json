@@ -1,0 +1,10 @@
+{
+    "_config_name": "bbb.settings",
+    "bbb_api_version": null,
+    "bbb_security_salt": "76b71974198f26ecc5a594eddddf49d1",
+    "bbb_base_url": "http://example.com/bigbluebutton",
+    "bbb_display_mode": "inline",
+    "bbb_display_height": "580px",
+    "bbb_display_width": "100%",
+    "bbb_local_tasks": 1
+}
