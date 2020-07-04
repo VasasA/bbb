@@ -92,22 +92,6 @@ function bbb_schema() {
 }
 
 /**
- * Add a column to the bbb_meetings table for the recording option
- */
-function bbb_update_7100() {
-  if (!db_field_exists('bbb_meetings', 'record')) {
-    $new_field = array(
-      'type' => 'int',
-      'default' => 0,
-      'size' => 'tiny',
-      'not null' => TRUE,
-      'description' => 'A boolean to indicate whether or not this meeting will be recorded.',
-    );
-    db_add_field('bbb_meetings', 'record', $new_field);
-  }
-}
-
-/**
  * Implement hook_uninstall().
  */
 function bbb_uninstall() {
