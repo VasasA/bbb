@@ -117,7 +117,7 @@ function bbb_api_join($params) {
 function bbb_api_isMeetingRunning($params) {
   $response = bbb_api_call($params, 'isMeetingRunning');
   if (isset($response->returncode) && $response->returncode == 'SUCCESS') {
-    return drupal_strtoupper($response->running) == 'TRUE' ? TRUE : FALSE;
+    return backdrop_strtoupper($response->running) == 'TRUE' ? TRUE : FALSE;
   }
   else {
     if (isset($response->returncode)) {
@@ -243,7 +243,7 @@ function bbb_api_generate_querystring($params = array(), $call = '') {
   $query = array();
   // URL encoding the parameters
   foreach ($params as $key => $value) {
-    $query[] = $key . '=' . drupal_encode_path(trim($value));
+    $query[] = $key . '=' . backdrop_encode_path(trim($value));
   }
   // Putting it together
   $query_string = implode('&', $query);

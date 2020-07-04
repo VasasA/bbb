@@ -1,12 +1,12 @@
 (function($) {
-  Drupal.behaviors.bbbCheckStatusInit = {
+  Backdrop.behaviors.bbbCheckStatusInit = {
    attach: function (context, settings) {
-    Drupal.bbbCheckStatus();
-    setInterval("Drupal.bbbCheckStatus();", 5000);
+    Backdrop.bbbCheckStatus();
+    setInterval("Backdrop.bbbCheckStatus();", 5000);
     }
   }
 
-  Drupal.bbbCheckStatus = function () {
+  Backdrop.bbbCheckStatus = function () {
     var url = bbb_check_status_url;
     $.getJSON(url, function(data) {
       console.log(data);
