@@ -239,6 +239,7 @@ function bbb_block_meeting($delta) {
  * Implements hook_form_BASE_FORM_ID_alter.
  */
 function bbb_form_node_type_form_alter(&$form, &$form_state, $form_id) {
+  $node_type = $form['#node_type'];
   // Node type settings form
   $form['bbb'] = array(
     '#title' => t('Big Blue Button settings'),
@@ -250,56 +251,56 @@ function bbb_form_node_type_form_alter(&$form, &$form_state, $form_id) {
   $form['bbb']['bbb_content_type'] = array(
     '#type' => 'checkbox',
     '#title' => t('Treat this node type as meeting'),
-    '#default_value' => bbb_config_get('bbb_content_type_' . $form['#node_type']->type, FALSE),
+    '#default_value' => $node_type->settings['bbb_content_type'],
   );
   $form['bbb']['bbb_content_type_show_links'] = array(
     '#type' => 'checkbox',
     '#title' => t('Show links to attend, moderate or terminate a meeting beneath the node'),
-    '#default_value' => bbb_config_get('bbb_content_type_show_links_' . $form['#node_type']->type, FALSE),
+    '#default_value' => $node_type->settings['bbb_content_type_show_links'],
   );
   $form['bbb']['bbb_content_type_show_status'] = array(
     '#type' => 'checkbox',
     '#title' => t('Display meeting status on node'),
-    '#default_value' => bbb_config_get('bbb_content_type_show_status_' . $form['#node_type']->type, FALSE),
+    '#default_value' => $node_type->settings['bbb_content_type_show_status'],
   );
 
   $form['bbb']['bbb_content_type_moderator_required'] = array(
     '#type' => 'checkbox',
     '#title' => t('Require a moderator present to run the meeting.'),
-    '#default_value' => bbb_config_get('bbb_content_type_moderator_required_' . $form['#node_type']->type, FALSE),
+    '#default_value' => $node_type->settings['bbb_content_type_moderator_required'],
   );
   $form['bbb']['bbb_content_type_welcome'] = array(
     '#title' => t('Welcome message'),
     '#type' => 'textfield',
-    '#default_value' => bbb_config_get('bbb_content_type_welcome_' . $form['#node_type']->type, ''),
+    '#default_value' => $node_type->settings['bbb_content_type_welcome'],
     '#maxlength' => 255,
     '#description' => t('A welcome message that gets displayed on the chat window when the participant joins. You can include keywords (%%CONFNAME%%, %%DIALNUM%%, %%CONFNUM%%) which will be substituted automatically.'),
   );
   $form['bbb']['bbb_content_type_dialNumber'] = array(
     '#title' => t('Dial number'),
     '#type' => 'textfield',
-    '#default_value' => bbb_config_get('bbb_content_type_dialNumber_' . $form['#node_type']->type, ''),
+    '#default_value' => $node_type->settings['bbb_content_type_dialNumber'],
     '#maxlength' => 32,
     '#description' => t('The dial access number that participants can call in using regular phone.'),
   );
   $form['bbb']['bbb_content_type_moderatorPW'] = array(
     '#title' => t('Moderator password'),
     '#type' => 'textfield',
-    '#default_value' => bbb_config_get('bbb_content_type_moderatorPW_' . $form['#node_type']->type, ''),
+    '#default_value' => $node_type->settings['bbb_content_type_moderatorPW'],
     '#maxlength' => 32,
     '#description' => t('The password that will be required for moderators to join the meeting or for certain administrative actions (i.e. ending a meeting).'),
   );
   $form['bbb']['bbb_content_type_attendeePW'] = array(
     '#title' => t('Attendee password'),
     '#type' => 'textfield',
-    '#default_value' => bbb_config_get('bbb_content_type_attendeePW_' . $form['#node_type']->type, ''),
+    '#default_value' => $node_type->settings['bbb_content_type_attendeePW'],
     '#maxlength' => 32,
     '#description' => t('The password that will be required for attendees to join the meeting.'),
   );
   $form['bbb']['bbb_content_type_logoutURL'] = array(
     '#title' => t('Logout URL'),
     '#type' => 'textfield',
-    '#default_value' => bbb_config_get('bbb_content_type_logoutURL_' . $form['#node_type']->type, ''),
+    '#default_value' => $node_type->settings['bbb_content_type_logoutURL'],
     '#maxlength' => 255,
     '#description' => t('The URL that the Big Blue Button client will go to after users click the OK button on the <em>You have been logged out message</em>.'),
   );
@@ -307,7 +308,7 @@ function bbb_form_node_type_form_alter(&$form, &$form_state, $form_id) {
     $form['bbb']['bbb_content_type_record'] = array(
       '#title' => t('Record new meetings of this type, by default.'),
       '#type' => 'checkbox',
-      '#default_value' => bbb_config_get('bbb_content_type_record_' . $form['#node_type']->type, ''),
+      '#default_value' => $node_type->settings['bbb_content_type_record'],
       '#description' => 'Meetings that are recorded can be viewed at <strong>http://example.com/playback/slides/playback.html?meetingId=<meetingId></strong> (The meeting ID is about 54 characters long.)',
       '#weight' => -1,
     );
@@ -338,7 +339,7 @@ function bbb_form_alter(&$form, &$form_state, $form_id) {
         $form['bbb']['welcome'] = array(
           '#title' => t('Welcome message'),
           '#type' => 'textfield',
-          '#default_value' => !empty($meeting->welcome) ? $meeting->welcome : bbb_config_get('bbb_content_type_welcome_' . $node_type, ''),
+          '#default_value' => !empty($meeting->welcome) ? $meeting->welcome : bbb_config_get('bbb_content_type_welcome', $node_type),
           '#maxlength' => 255,
           '#description' => t('A welcome message that gets displayed on the chat window when the participant joins. You can include keywords (%%CONFNAME%%, %%DIALNUM%%, %%CONFNUM%%) which will be substituted automatically.'),
           '#attributes' => !empty($meeting->meetingID) ? array('disabled' => 'disabled') : array(),
@@ -346,7 +347,7 @@ function bbb_form_alter(&$form, &$form_state, $form_id) {
         $form['bbb']['dialNumber'] = array(
           '#title' => t('Dial number'),
           '#type' => 'textfield',
-          '#default_value' => !empty($meeting->dialNumber) ? $meeting->dialNumber : bbb_config_get('bbb_content_type_dialNumber_' . $node_type, ''),
+          '#default_value' => !empty($meeting->dialNumber) ? $meeting->dialNumber : bbb_config_get('bbb_content_type_dialNumber', $node_type),
           '#maxlength' => 32,
           '#description' => t('The dial access number that participants can call in using regular phone.'),
           '#attributes' => !empty($meeting->meetingID) ? array('disabled' => 'disabled') : array(),
@@ -354,7 +355,7 @@ function bbb_form_alter(&$form, &$form_state, $form_id) {
         $form['bbb']['moderatorPW'] = array(
           '#title' => t('Moderator password'),
           '#type' => 'textfield',
-          '#default_value' => !empty($meeting->moderatorPW) ? $meeting->moderatorPW : bbb_config_get('bbb_content_type_moderatorPW_' . $node_type, ''),
+          '#default_value' => !empty($meeting->moderatorPW) ? $meeting->moderatorPW : bbb_config_get('bbb_content_type_moderatorPW', $node_type),
           '#maxlength' => 32,
           '#description' => t('The password that will be required for moderators to join the meeting or for certain administrative actions (i.e. ending a meeting).'),
           '#attributes' => !empty($meeting->meetingID) ? array('disabled' => 'disabled') : array(),
@@ -362,7 +363,7 @@ function bbb_form_alter(&$form, &$form_state, $form_id) {
         $form['bbb']['attendeePW'] = array(
           '#title' => t('Attendee password'),
           '#type' => 'textfield',
-          '#default_value' => !empty($meeting->attendeePW) ? $meeting->attendeePW : bbb_config_get('bbb_content_type_attendeePW_' . $node_type, ''),
+          '#default_value' => !empty($meeting->attendeePW) ? $meeting->attendeePW : bbb_config_get('bbb_content_type_attendeePW', $node_type),
           '#maxlength' => 32,
           '#description' => t('The password that will be required for attendees to join the meeting.'),
           '#attributes' => !empty($meeting->meetingID) ? array('disabled' => 'disabled') : array(),
@@ -370,7 +371,7 @@ function bbb_form_alter(&$form, &$form_state, $form_id) {
         $form['bbb']['logoutURL'] = array(
           '#title' => t('Logout URL'),
           '#type' => 'textfield',
-          '#default_value' => !empty($meeting->logoutURL) ? $meeting->logoutURL : bbb_config_get('bbb_content_type_logoutURL_' . $node_type, ''),
+          '#default_value' => !empty($meeting->logoutURL) ? $meeting->logoutURL : bbb_config_get('bbb_content_type_logoutURL', $node_type),
           '#maxlength' => 255,
           '#description' => t('The URL that the Big Blue Button client will go to after users click the OK button on the <em>You have been logged out message</em>.'),
           '#attributes' => !empty($meeting->meetingID) ? array('disabled' => 'disabled') : array(),
@@ -378,7 +379,7 @@ function bbb_form_alter(&$form, &$form_state, $form_id) {
         $form['bbb']['record'] = array(
           '#title' => t('Record meeting'),
           '#type' => 'select',
-          '#default_value' => !empty($meeting->record) ? $meeting->record : bbb_config_get('bbb_content_type_record_' . $node_type, ''),
+          '#default_value' => !empty($meeting->record) ? $meeting->record : bbb_config_get('bbb_content_type_record', $node_type),
           '#options' => array(
             0 => t('Do not record'),
             1 => t('Record'),
@@ -400,7 +401,7 @@ function bbb_form_alter(&$form, &$form_state, $form_id) {
         $form['bbb']['record'] = array(
           '#title' => t('Record meeting'),
           '#type' => 'select',
-          '#default_value' => !empty($meeting->record) ? $meeting->record : bbb_config_get('bbb_content_type_record_' . $node_type, ''),
+          '#default_value' => !empty($meeting->record) ? $meeting->record : bbb_config_get('bbb_content_type_record', $node_type),
           '#options' => array(
             0 => t('Do not record'),
             1 => t('Record'),
@@ -441,7 +442,7 @@ function bbb_node_view($node, $view_mode, $langcode) {
     return;
   }
 
-  if (!bbb_config_get('bbb_content_type_show_status_' . $node->type, FALSE)) {
+  if (!bbb_config_get('bbb_content_type_show_status', $node->type)) {
     return;
   }
 
@@ -483,7 +484,7 @@ function bbb_node_delete($node) {
 function bbb_link($type, $object, $teaser = FALSE) {
   $links = array();
   if ($type == 'node' && bbb_is_meeting_type($object->type)) {
-    $show = bbb_config_get('bbb_content_type_show_links_' . $object->type, FALSE);
+    $show = bbb_config_get('bbb_content_type_show_links', $object->type);
     if (!$teaser && $show) {
       $meeting = bbb_get_meeting($object->nid);
       if (user_access('attend meetings') || user_access('administer big blue button')) {
@@ -560,7 +561,7 @@ function bbb_is_meeting_owner($nid, $account = NULL) {
  * Check if node type is meeting
  */
 function bbb_is_meeting_type($type) {
-  return bbb_config_get('bbb_content_type_' . $type, FALSE);
+  return bbb_config_get('bbb_content_type', $type);
 }
 
 /**
@@ -612,12 +613,12 @@ function bbb_get_meeting($nid, $account = NULL, $cached = TRUE) {
  * Init meeting
  */
 function bbb_init_meeting($node = NULL, $params = array()) {
-  $welcome     = bbb_config_get('bbb_content_type_welcome_' . $node->type, '');
-  $dialNumber  = bbb_config_get('bbb_content_type_dialNumber_' . $node->type, '');
-  $moderatorPW = bbb_config_get('bbb_content_type_moderatorPW_' . $node->type, '');
-  $attendeePW  = bbb_config_get('bbb_content_type_attendeePW_' . $node->type, '');
-  $logoutURL   = bbb_config_get('bbb_content_type_logoutURL_' . $node->type, '');
-  $default_rec = bbb_config_get('bbb_content_type_record_' . $node->type, '');
+  $welcome     = bbb_config_get('bbb_content_type_welcome', $node->type);
+  $dialNumber  = bbb_config_get('bbb_content_type_dialNumber', $node->type);
+  $moderatorPW = bbb_config_get('bbb_content_type_moderatorPW', $node->type);
+  $attendeePW  = bbb_config_get('bbb_content_type_attendeePW', $node->type);
+  $logoutURL   = bbb_config_get('bbb_content_type_logoutURL', $node->type);
+  $default_rec = bbb_config_get('bbb_content_type_record', $node->type);
   if (isset($node->bbb)) {
     $record = (array) $node->bbb;
     $record = empty($record['record']) ? $default_rec : 1;
@@ -726,7 +727,7 @@ function bbb_meeting_attend($node) {
     }
   }
   else {
-    if (bbb_config_get('bbb_content_type_moderator_required_' . $node->type, FALSE)) {
+    if (bbb_config_get('bbb_content_type_moderator_required', $node->type)) {
       backdrop_add_js('var bbb_check_status_url = ' . backdrop_json_encode(url('node/' . $node->nid . '/meeting/status')), 'inline');
       backdrop_add_js(backdrop_get_path('module', 'bbb') . '/js/check_status.bbb.js');
       backdrop_set_message(t('You signed up for this meeting. Please stay on this page, you will be redirected immediately after the meeting has started.'));
@@ -964,15 +965,13 @@ function theme_bbb_block_meeting($meeting) {
 /**
  * Get config, set default.
  */
-function bbb_config_get($variable, $default) {
-  $config = config('bbb.settings');
-  $value = $config->get($variable);
-  if ($value === NULL) {
-    $config->set($variable, $default);
-    $config->save();
-    return $default;
+function bbb_config_get($variable, $node_type) {
+  $config = config('node.type.' . $node_type);
+  $settings = $config->get('settings');
+  if (!isset($settings[$variable])) {
+    return FALSE;
   }
-  return $value;
+  return$settings[$variable];
 }
 
 /**
@@ -984,4 +983,24 @@ function bbb_config_info() {
     'group' => t('Configuration'),
   );
   return $prefixes;
+}
+
+/**
+ * Implements hook_node_type_load().
+ */
+function bbb_node_type_load(&$types) {
+  foreach ($types as $type_name => $type) {
+    $types[$type_name]->settings += array(
+      'bbb_content_type' => FALSE,
+      'bbb_content_type_show_links' => FALSE,
+      'bbb_content_type_show_status' => FALSE,
+      'bbb_content_type_moderator_required' => FALSE,
+      'bbb_content_type_welcome' => '',
+      'bbb_content_type_dialNumber' => '',
+      'bbb_content_type_moderatorPW' => '',
+      'bbb_content_type_attendeePW' => '',
+      'bbb_content_type_logoutURL' => '',
+      'bbb_content_type_record' => FALSE,
+    );
+  }
 }
