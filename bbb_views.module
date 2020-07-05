@@ -18,3 +18,13 @@ function bbb_views_views_api() {
     'path' => drupal_get_path('module', 'bbb') . '/includes',
   );
 }
+
+/**
+ * Implements hook_autoload_info().
+ */
+function bbb_views_autoload_info() {
+  return array(
+    'views_handler_field_bbb_join_attendee' => 'includes/views_handler_field_bbb_join_attendee.inc',
+    'views_handler_field_bbb_join_moderator' => 'includes/views_handler_field_bbb_join_moderator.inc',
+  );
+}
