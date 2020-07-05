@@ -15,7 +15,7 @@
 function bbb_views_views_api() {
   return array(
     'api' => 2,
-    'path' => drupal_get_path('module', 'bbb') . '/includes',
+    'path' => backdrop_get_path('module', 'bbb') . '/includes',
   );
 }
 

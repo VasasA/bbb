@@ -14,7 +14,7 @@
 function bbb_views_views_handlers() {
   return array(
     'info' => array(
-      'path' => drupal_get_path('module', 'bbb_views') . '/includes',
+      'path' => backdrop_get_path('module', 'bbb_views') . '/includes',
     ),
     'handlers' => array(
       'views_handler_field_bbb_join_attendee' => array(
