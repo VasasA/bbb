@@ -421,7 +421,7 @@ function bbb_node_insert($node) {
   if (!bbb_is_meeting_type($node->type)) {
     return;
   }
-  bbb_store_meeting($node);
+  bbb_store_meeting($node, $node->bbb);
 }
 
 /**
