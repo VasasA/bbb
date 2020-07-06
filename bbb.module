@@ -27,7 +27,7 @@ define('BIGBLUEBUTTON_IS_MEETING_RUNNING_URL', '/api/isMeetingRunning');
 // Security Salt
 // see /var/lib/tomcat6/webapps/bigbluebutton/WEB-INF/classes/bigbluebutton.properties
 define('BIGBLUEBUTTON_SECURITY_SALT', config_get('bbb.settings', 'bbb_security_salt'));
-define('BIGBLUEBUTTON_BASE_URL', config_get('bbb.settings', 'bbb_base_url'));
+define('BIGBLUEBUTTON_BASE_URL', rtrim(config_get('bbb.settings', 'bbb_base_url'), '/'));
 
 // Define default settings
 define('BIGBLUEBUTTON_DISPLAY_MODE', config_get('bbb.settings', 'bbb_display_mode'));

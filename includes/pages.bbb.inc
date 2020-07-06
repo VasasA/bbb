@@ -94,10 +94,10 @@ function bbb_settings() {
   $form['connection'] = array(
     '#type' => 'submit',
     '#executes_submit_callback' => FALSE,
-    '#value' => t('Test Connection'),
+    '#value' => t('Test Connection With Saved Configuration'),
   );
     if (bbb_test_connection($form['bbb_server']['bbb_base_url']['#default_value'])) {
-      backdrop_set_message(t('The connection has been established succesfully. Please save your settings now.'), 'status', FALSE);
+      backdrop_set_message(t('The connection has been established succesfully.'), 'status', FALSE);
     }
     else {
       backdrop_set_message(t('The connection could not be established. Please adjust your settings.'), 'error');
@@ -109,8 +109,8 @@ function bbb_settings() {
  * Test conection to Big Blue Button
  */
 function bbb_test_connection($url) {
-  $response = backdrop_http_request($url);
-  if ($response->code == 200 || $response->code == 302) {
+  $response = backdrop_http_request(rtrim($url, '/') . '/api');
+  if (isset($response->data) && strpos($response->data, 'SUCCESS')) {
     return TRUE;
   }
   return FALSE;
