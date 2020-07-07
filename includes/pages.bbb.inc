@@ -31,7 +31,8 @@ function bbb_settings() {
     '#title' => t('Security Salt'),
     '#type' => 'textfield',
     '#default_value' => $config->get('bbb_security_salt'),
-    '#description' => t('The predefined security salt. This is a server side configuration option. Please check the BigBlueButton !documentation.', array('!documentation' => l(t('documentation'), 'http://code.google.com/p/bigbluebutton/'))),
+    '#description' => t('The predefined security salt. This is a server side configuration option. You can get this value using the command
+     `bbb-conf --salt` on your Big Blue Button server. Please check the BigBlueButton !documentation.', array('!documentation' => l(t('documentation'), 'http://code.google.com/p/bigbluebutton/'))),
   );
   $form['bbb_client'] = array(
     '#title' => t('Client settings'),
