@@ -22,9 +22,11 @@ Installation and setup
    https://backdropcms.org/guide/modules
 2. Configure BBB Settings at admin/config/media/bigbluebutton:
    - Administration > Configuration > Media > Big Blue Button meetings
-   - Adding the Base URL.
-   - Adding the Security Salt value. You can get this value using the command
-     `bbb-conf --salt` on your Big Blue Button server.
+   - Adding the Base URL and the Security Salt value. You can get these values
+     using the command `bbb-conf --salt` on your BigBlueButton server.
+     The salt is tagged by 'Secret'. For example:
+     - `URL: http://192.168.1.7/bigbluebutton`
+     - `Secret: 6bbdc14d32df911075a5f3176adc1a0f`
 3. Create a new content type at admin/structure/types/add:
    - Administration > Structure > Content types > Add content type
    - Set the options under "Big Blue Button settings".
@@ -39,6 +41,12 @@ Installation and setup
        - Attend meetings: Allow following meetings as an attendee
        - Record meetings: Allow the user to record meetings.
 6. Open the content and use the "Attend meeting" or the "Moderate meeting" links.
+7. You can add a preconfigured block to the content with meeting details:
+   - Administration > Structure > Layouts > Default Layout > Manage blocks > 
+     Sidebar > Add block > BBB Meeting details
+   - Press the "Add block" and the "Save layout" buttons.
+   - Open the content and use the "Attend meeting" or the "Moderate meeting"
+     or the "Terminate meeting" links.
 
 
 
