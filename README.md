@@ -23,7 +23,7 @@ Installation and setup
 2. Configure BBB Settings at admin/config/media/bigbluebutton:
    - Administration > Configuration > Media > Big Blue Button meetings
    - Adding the Base URL and the Security Salt value. You can get these values
-     using the command `bbb-conf --salt` on your BigBlueButton server.
+     using the following command on your BigBlueButton server: `bbb-conf --salt`
      The salt is tagged by 'Secret'. For example:
      - `URL: http://192.168.1.7/bigbluebutton`
      - `Secret: 6bbdc14d32df911075a5f3176adc1a0f`
@@ -39,7 +39,7 @@ Installation and setup
        - Moderate meetings: Allow moderation of meetings
        - Moderate own meetings: Allow moderation of own meetings
        - Attend meetings: Allow following meetings as an attendee
-       - Record meetings: Allow the user to record meetings.
+       - Record meetings: Allow the user to record meetings
 6. Open the content and use the "Attend meeting" or the "Moderate meeting" links.
 7. You can add a preconfigured block to the content with meeting details:
    - Administration > Structure > Layouts > Default Layout > Manage blocks > 
@@ -86,21 +86,27 @@ Local BigBlueButton test server
 You can test the BBB module with a local BigBlueButton test server:
 1. Install Docker: https://www.docker.com/
 2. Use these commands:
-   - `docker pull bigbluebutton/bigbluebutton`
-   - `docker run --rm -p 80:80/tcp -p 1935:1935 -p 3478:3478 -p 3478:3478/udp bigbluebutton/bigbluebutton -h <HOST_IP>`
-     Make sure you provide the host IP of the server on which you run the docker command.
-     e.g. `docker run --rm -p 80:80/tcp -p 1935:1935 -p 3478:3478 -p 3478:3478/udp bigbluebutton/bigbluebutton -h 192.168.1.7`
-3. Test BigBlueButton server without Backdrop: Once running, you can navigate to
-   `http://<HOST_IP>` to access your BigBlueButton server. e.g. http://192.168.1.7
+   ```
+   docker pull bigbluebutton/bigbluebutton
+   docker run --rm -p 80:80/tcp -p 1935:1935 -p 3478:3478 -p 3478:3478/udp bigbluebutton/bigbluebutton -h <HOST_IP>
+   ```
+   Make sure you provide the host IP of the server on which you run the docker command.
+   For example:
+   ```
+   docker run --rm -p 80:80/tcp -p 1935:1935 -p 3478:3478 -p 3478:3478/udp bigbluebutton/bigbluebutton -h 192.168.1.7
+   ```
+3. Test BigBlueButton server without Backdrop: If the server is already running,
+   you can navigate to `http://<HOST_IP>` to access your BigBlueButton server.
+   For example: http://192.168.1.7
 4. Configure BBB Settings at admin/config/media/bigbluebutton:
    - Administration > Configuration > Media > Big Blue Button meetings
    - Base URL: `http://<HOST_IP>/bigbluebutton`
    - Security Salt: Copy the salt string from docker terminal log. Search the
      line of `SECRET=<salt>`
-     e.g. `SECRET=6bbdc14d32df911075a5f3176adc1a0f`
+     For example: `SECRET=6bbdc14d32df911075a5f3176adc1a0f`
    - Select the "Open in a new window" option.
    - Press the "Save configuration" button.
-   - Press the "Test Connection With Saved Configuration" button.
+   - Press the "Test connection with saved configuration" button.
 5. Create a new content type at admin/structure/types/add:
    - Administration > Structure > Content types > Add content type
    - Name: Conferences
