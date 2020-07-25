@@ -88,7 +88,7 @@ You can test the BBB module with a local BigBlueButton test server:
 2. Use these commands:
    ```
    docker pull bigbluebutton/bigbluebutton
-   docker run --rm -p 80:80/tcp -p 1935:1935 -p 3478:3478 -p 3478:3478/udp bigbluebutton/bigbluebutton -h <HOST_IP>
+   docker run --rm -p 80:80/tcp -p 1935:1935 -p 3478:3478 -p 3478:3478/udp bigbluebutton/bigbluebutton -h HOST_IP
    ```
    Make sure you provide the host IP of the server on which you run the docker command.
    For example:
@@ -96,13 +96,13 @@ You can test the BBB module with a local BigBlueButton test server:
    docker run --rm -p 80:80/tcp -p 1935:1935 -p 3478:3478 -p 3478:3478/udp bigbluebutton/bigbluebutton -h 192.168.1.7
    ```
 3. Test BigBlueButton server without Backdrop: If the server is already running,
-   you can navigate to `http://<HOST_IP>` to access your BigBlueButton server.
+   you can navigate to `http://HOST_IP` to access your BigBlueButton server.
    For example: http://192.168.1.7
 4. Configure BBB Settings at admin/config/media/bigbluebutton:
    - Administration > Configuration > Media > Big Blue Button meetings
-   - Base URL: `http://<HOST_IP>/bigbluebutton`
+   - Base URL: `http://HOST_IP/bigbluebutton`
    - Security Salt: Copy the salt string from docker terminal log. Search the
-     line of `SECRET=<salt>`
+     line of `SECRET=salt_string`
      For example: `SECRET=6bbdc14d32df911075a5f3176adc1a0f`
    - Select the "Open in a new window" option.
    - Press the "Save configuration" button.
