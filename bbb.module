@@ -971,7 +971,7 @@ function bbb_config_get($variable, $node_type) {
   if (!isset($settings[$variable])) {
     return FALSE;
   }
-  return$settings[$variable];
+  return $settings[$variable];
 }
 
 /**
