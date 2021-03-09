@@ -97,3 +97,10 @@ function bbb_schema() {
 function bbb_uninstall() {
 
 }
+
+/**
+ * Implements hook_update_last_removed().
+ */
+function bbb_update_last_removed() {
+  return 7100;
+}
