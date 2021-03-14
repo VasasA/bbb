@@ -104,3 +104,66 @@ function bbb_uninstall() {
 function bbb_update_last_removed() {
   return 7100;
 }
+
+/**
+ * Move bbb module settings from variables to config.
+ */
+function bbb_update_1000() {
+  // Migrate variables to config.
+  $config = config('bbb.settings');
+  $config->set('bbb_api_version', update_variable_get('bbb_api_version', NULL));
+  $config->set('bbb_security_salt', update_variable_get('bbb_security_salt', '76b71974198f26ecc5a594eddddf49d1'));
+  $config->set('bbb_base_url', update_variable_get('bbb_base_url', 'http://example.com/bigbluebutton'));
+  $config->set('bbb_display_mode', update_variable_get('bbb_display_mode', 'inline'));
+  $config->set('bbb_display_height', update_variable_get('bbb_display_height', '580px'));
+  $config->set('bbb_display_width', update_variable_get('bbb_display_width', '100%'));
+  $config->set('bbb_local_tasks', update_variable_get('bbb_local_tasks', 1));
+  $config->save();
+
+  // Delete variables.
+  update_variable_del('bbb_api_version');
+  update_variable_del('bbb_security_salt');
+  update_variable_del('bbb_base_url');
+  update_variable_del('bbb_display_mode');
+  update_variable_del('bbb_display_height');
+  update_variable_del('bbb_display_width');
+  update_variable_del('bbb_local_tasks');
+}
+
+/**
+ * Move bbb node type settings from variables to config.
+ */
+function bbb_update_1001() {
+  $node_types = node_type_get_types();
+  foreach($node_types as $type => $node_type) {
+    if (update_variable_get('bbb_content_type_' . $type) !== NULL) {
+      // Migrate variables to config.
+      $config = config('node.type.' . $type);
+      $settings = $config->get('settings');
+      $settings['bbb_content_type'] = update_variable_get('bbb_content_type_' . $type, FALSE);
+      $settings['bbb_content_type_show_links'] = update_variable_get('bbb_content_type_show_links_' . $type, FALSE);
+      $settings['bbb_content_type_show_status'] = update_variable_get('bbb_content_type_show_status_' . $type, FALSE);
+      $settings['bbb_content_type_moderator_required'] = update_variable_get('bbb_content_type_moderator_required_' . $type, FALSE);
+      $settings['bbb_content_type_welcome'] = update_variable_get('bbb_content_type_welcome_' . $type, '');
+      $settings['bbb_content_type_dialNumber'] = update_variable_get('bbb_content_type_dialNumber_' . $type, '');
+      $settings['bbb_content_type_moderatorPW'] = update_variable_get('bbb_content_type_moderatorPW_' . $type, '');
+      $settings['bbb_content_type_attendeePW'] = update_variable_get('bbb_content_type_attendeePW_' . $type, '');
+      $settings['bbb_content_type_logoutURL'] = update_variable_get('bbb_content_type_logoutURL_' . $type, '');
+      $settings['bbb_content_type_record'] = update_variable_get('bbb_content_type_record_' . $type, FALSE);
+      $config->set('settings', $settings);
+      $config->save();
+
+      // Delete variables.
+      update_variable_del('bbb_content_type_' . $type);
+      update_variable_del('bbb_content_type_show_links_' . $type);
+      update_variable_del('bbb_content_type_show_status_' . $type);
+      update_variable_del('bbb_content_type_moderator_required_' . $type);
+      update_variable_del('bbb_content_type_welcome_' . $type);
+      update_variable_del('bbb_content_type_dialNumber_' . $type);
+      update_variable_del('bbb_content_type_moderatorPW_' . $type);
+      update_variable_del('bbb_content_type_attendeePW_' . $type);
+      update_variable_del('bbb_content_type_logoutURL_' . $type);
+      update_variable_del('bbb_content_type_record_' . $type);
+    }
+  }
+}
